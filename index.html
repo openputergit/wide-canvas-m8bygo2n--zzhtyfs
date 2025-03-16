@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce Certification Practice Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+        }
+        .quiz-card {
+            transition: all 0.3s ease;
+        }
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .dark {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .dark .bg-white {
+            background-color: #2a2a2a;
+            color: #f5f5f5;
+        }
+        .dark .text-black {
+            color: #f5f5f5;
+        }
+        .dark .bg-gray-50 {
+            background-color: #1a1a1a;
+        }
+        .dark .bg-gray-200 {
+            background-color: #3a3a3a;
+            color: #f5f5f5;
+        }
+        .sidebar-item.active {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid #2563eb;
+        }
+        .dark .sidebar-item.active {
+            background-color: rgba(37, 99, 235, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle" class="lg:hidden">
+                    <i class="bi bi-list text-2xl"></i>
+                </button>
+                <h1 class="text-2xl font-bold">Salesforce Practice Hub</h1>
+            </div>
+            <div class="flex gap-4">
+                <button id="login-btn" class="px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-800">
+                    <i class="bi bi-person"></i> Login
+                </button>
+                <button id="progress-btn" class="px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-800">
+                    <i class="bi bi-graph-up"></i> Progress
+                </button>
+                <button id="theme-toggle" class="px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-800">
+                    <i class="bi bi-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg h-screen fixed top-[68px] left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out z-10">
+            <div class="p-4">
+                <h3 class="text-lg font-bold mb-4">Certifications</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="sidebar-item active block p-2 rounded-lg hover:bg-blue-50">Salesforce Admin</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Platform Developer I</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Platform Developer II</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Platform App Builder</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Service Cloud Consultant</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Sales Cloud Consultant</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Experience Cloud Consultant</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Marketing Cloud Email Specialist</a></li>
+                </ul>
+                
+                <hr class="my-4">
+                
+                <h3 class="text-lg font-bold mb-4">Practice Sets</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Random Questions</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Practice Exam 1</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Practice Exam 2</a></li>
+                    <li><a href="#" class="sidebar-item block p-2 rounded-lg hover:bg-blue-50">Custom Set</a></li>
+                </ul>
+                
+                <hr class="my-4">
+                
+                <h3 class="text-lg font-bold mb-4 flex items-center">
+                    <span>Admin Portal</span>
+                    <i class="bi bi-lock ml-2 text-gray-500"></i>
+                </h3>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-4">
+            <div id="main-content" class="container mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Stats Cards -->
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <i class="bi bi-question-circle text-3xl text-blue-600"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">Total Questions</h3>
+                                <p class="text-2xl font-bold text-blue-600">10,000</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <i class="bi bi-check2-circle text-3xl text-green-600"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">Questions Attempted</h3>
+                                <p id="attempted" class="text-2xl font-bold text-green-600">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <i class="bi bi-trophy text-3xl text-yellow-600"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">Success Rate</h3>
+                                <p id="success-rate" class="text-2xl font-bold text-yellow-600">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Topic Selection -->
+                <div class="mt-8 bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Salesforce Admin Certification</h2>
+                        <div>
+                            <button id="create-practice-set" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <i class="bi bi-plus-lg"></i> Create Practice Set
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">Organization Setup</h3>
+                            <p class="text-gray-600 mb-4">120 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">87% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">User Setup</h3>
+                            <p class="text-gray-600 mb-4">95 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">92% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">Security and Access</h3>
+                            <p class="text-gray-600 mb-4">150 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">72% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">Objects and Fields</h3>
+                            <p class="text-gray-600 mb-4">200 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">80% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">Sales and Marketing</h3>
+                            <p class="text-gray-600 mb-4">180 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">75% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-card bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2">Service and Support</h3>
+                            <p class="text-gray-600 mb-4">130 questions</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-bold">68% success</span>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Section (initially hidden) -->
+                <div id="quiz-section" class="mt-8 bg-white rounded-xl p-6 shadow-lg hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Current Question</h2>
+                        <div class="flex items-center gap-2">
+                            <span id="question-number" class="text-lg font-semibold">Question 1/20</span>
+                            <button id="bookmark-btn" class="text-xl text-gray-500 hover:text-yellow-500">
+                                <i class="bi bi-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="question-container" class="space-y-4">
+                        <!-- Question will be inserted here -->
+                    </div>
+                    
+                    <div class="mt-6 flex justify-between">
+                        <button id="prev-btn" class="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Previous</button>
+                        <div>
+                            <button id="hint-btn" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 mr-2">Hint</button>
+                            <button id="check-btn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Check Answer</button>
+                        </div>
+                        <button id="next-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Next</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Login / Sign Up</h2>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <div class="flex border-b">
+                    <button id="login-tab" class="py-2 px-4 border-b-2 border-blue-600 font-semibold">Login</button>
+                    <button id="signup-tab" class="py-2 px-4 text-gray-500">Sign Up</button>
+                </div>
+                
+                <div id="login-form" class="mt-4">
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="********">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember" class="mr-2">
+                                <label for="remember" class="text-gray-700">Remember me</label>
+                            </div>
+                            <a href="#" class="text-blue-600 hover:text-blue-800">Forgot password?</a>
+                        </div>
+                        <button type="button" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Login</button>
+                    </form>
+                </div>
+                
+                <div id="signup-form" class="mt-4 hidden">
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Full Name</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="********">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Confirm Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="********">
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="terms" class="mr-2">
+                            <label for="terms" class="text-gray-700">I agree to the <a href="#" class="text-blue-600 hover:text-blue-800">Terms of Service</a></label>
+                        </div>
+                        <button type="button" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-4xl w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Your Progress</h2>
+                <button id="close-progress-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Overall Statistics</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Questions Attempted:</span>
+                                <span class="font-bold">245/10,000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 2.45%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Correct Answers:</span>
+                                <span class="font-bold">192/245</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-600 h-2.5 rounded-full" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Study Streak:</span>
+                                <span class="font-bold">5 days</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">M</div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">T</div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">W</div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">T</div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">F</div>
+                                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-xs">S</div>
+                                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-xs">S</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Topic Performance</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Organization Setup:</span>
+                                <span class="font-bold">87%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Security and Access:</span>
+                                <span class="font-bold">72%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Objects and Fields:</span>
+                                <span class="font-bold">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Service and Support:</span>
+                                <span class="font-bold">68%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 68%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button id="download-progress" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <i class="bi bi-download"></i> Download Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Portal Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Admin Portal</h2>
+                <button id="close-admin-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <ul class="flex border-b">
+                    <li><button id="questions-tab" class="py-2 px-4 border-b-2 border-blue-600 font-semibold">Questions</button></li>
+                    <li><button id="certifications-tab" class="py-2 px-4 text-gray-500">Certifications</button></li>
+                    <li><button id="users-tab" class="py-2 px-4 text-gray-500">Users</button></li>
+                    <li><button id="import-tab" class="py-2 px-4 text-gray-500">Import/Export</button></li>
+                </ul>
+            </div>
+            
+            <div id="questions-panel">
+                <div class="flex justify-between mb-4">
+                    <div class="flex gap-2">
+                        <select class="border border-gray-300 rounded-lg p-2">
+                            <option>All Certifications</option>
+                            <option>Salesforce Admin</option>
+                            <option>Platform Developer I</option>
+                            <option>Platform App Builder</option>
+                        </select>
+                        <input type="text" placeholder="Search questions..." class="border border-gray-300 rounded-lg p-2">
+                    </div>
+                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Add Question
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 text-left">ID</th>
+                                <th class="py-3 px-4 text-left">Question</th>
+                                <th class="py-3 px-4 text-left">Certification</th>
+                                <th class="py-3 px-4 text-left">Topic</th>
+                                <th class="py-3 px-4 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">1</td>
+                                <td class="py-3 px-4">What is a profile in Salesforce?</td>
+                                <td class="py-3 px-4">Salesforce Admin</td>
+                                <td class="py-3 px-4">Security and Access</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
+                                    <button class="text-red-600 hover:text-red-800">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">2</td>
+                                <td class="py-3 px-4">Which of the following is NOT a standard object in Salesforce?</td>
+                                <td class="py-3 px-4">Salesforce Admin</td>
+                                <td class="py-3 px-4">Objects and Fields</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
+                                    <button class="text-red-600 hover:text-red-800">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="text-gray-600">Showing 1-2 of 10,000 questions</div>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded-lg">Previous</button>
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded-lg">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-lg">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-lg">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-lg">Next</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="certifications-panel" class="hidden">
+                <div class="flex justify-between mb-4">
+                    <input type="text" placeholder="Search certifications..." class="border border-gray-300 rounded-lg p-2">
+                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Add Certification
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 text-left">ID</th>
+                                <th class="py-3 px-4 text-left">Certification</th>
+                                <th class="py-3 px-4 text-left">Total Questions</th>
+                                <th class="py-3 px-4 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">1</td>
+                                <td class="py-3 px-4">Salesforce Admin</td>
+                                <td class="py-3 px-4">2,500</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
+                                    <button class="text-red-600 hover:text-red-800">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">2</td>
+                                <td class="py-3 px-4">Platform Developer I</td>
+                                <td class="py-3 px-4">1,800</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
+                                    <button class="text-red-600 hover:text-red-800">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="import-panel" class="hidden">
+                <h3 class="text-xl font-semibold mb-4">Import Questions</h3>
+                
+                <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
+                    <i class="bi bi-file-earmark-excel text-gray-400 text-5xl mb-2"></i>
+                    <p class="text-gray-600 mb-4">Drag and drop an Excel file here, or click to select a file</p>
+                    <input type="file" class="hidden" id="file-upload">
+                    <button onclick="document.getElementById('file-upload').click()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Select File
+                    </button>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg p-4 mb-6">
+                    <h4 class="font-semibold mb-2">File Format Instructions</h4>
+                    <p class="text-gray-600 mb-2">Your Excel file should have the following columns:</p>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li>Question (text)</li>
+                        <li>Option A (text)</li>
+                        <li>Option B (text)</li>
+                        <li>Option C (text)</li>
+                        <li>Option D (text)</li>
+                        <li>Correct Answer (A, B, C, or D)</li>
+                        <li>Explanation (text)</li>
+                        <li>Topic (text)</li>
+                        <li>Certification (text)</li>
+                    </ul>
+                    <p class="mt-2 text-gray-600">Download our <a href="#" class="text-blue-600 hover:text-blue-800">template file</a> for reference.</p>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 mr-2">Cancel</button>
+                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample questions database (2500 questions for Salesforce Admin)
+        const salesforceAdminQuestions = [
+            {
+                id: 1,
+                question: "What is a profile in Salesforce?",
+                options: [
+                    "A collection of settings and permissions that determine user access",
+                    "A user's personal information",
+                    "A type of report",
+                    "A dashboard component"
+                ],
+                correct: 0,
+                explanation: "A profile in Salesforce defines what a user can do in the platform through settings and permissions. It includes object permissions, field permissions, and user permissions.",
+                topic: "Security and Access",
+                certification: "Salesforce Admin"
+            },
+            {
+                id: 2,
+                question: "Which of the following is NOT a standard object in Salesforce?",
+                options: [
+                    "Account",
+                    "Contact",
+                    "Project",
+                    "Opportunity"
+                ],
+                correct: 2,
+                explanation: "Project is not a standard object in Salesforce. Account, Contact, and Opportunity are standard objects that come with Salesforce out of the box.",
+                topic: "Objects and Fields",
+                certification: "Salesforce Admin"
+            },
+            {
+                id: 3,
+                question: "What is the maximum number of custom objects you can create in Enterprise Edition?",
+                options: [
+                    "50",
+                    "200",
+                    "500",
+                    "2,000"
+                ],
+                correct: 2,
+                explanation: "In Salesforce Enterprise Edition, you can create up to 500 custom objects. This limit varies by edition, with Professional allowing 50 and Unlimited/Performance allowing 2,000.",
+                topic: "Objects and Fields",
+                certification: "Salesforce Admin"
+            },
+            {
+                id: 4,
+                question: "What is the purpose of a Workflow Rule in Salesforce?",
+                options: [
+                    "To validate data before it's saved",
+                    "To automate standard internal procedures and processes",
+                    "To create custom user interfaces",
+                    "To manage record ownership"
+                ],
+                correct: 1,
+                explanation: "Workflow Rules in Salesforce automate standard internal procedures and processes to save time across the organization. They consist of criteria and actions.",
+                topic: "Automation",
+                certification: "Salesforce Admin"
+            },
+            {
+                id: 5,
+                question: "What is the relationship between a Profile and a Permission Set in Salesforce?",
+                options: [
+                    "Permission Sets can only remove permissions granted by Profiles",
+                    "Permission Sets can only add permissions to those granted by Profiles",
+                    "Profiles and Permission Sets are completely independent of each other",
+                    "Permission Sets completely override Profile permissions"
+                ],
+                correct: 1,
+                explanation: "Permission Sets in Salesforce can only add permissions to those already granted by a user's Profile. They cannot revoke or remove permissions that are granted by a Profile.",
+                topic: "Security and Access",
+                certification: "Salesforce Admin"
+            }
+            // The rest of the 2500 questions would be here...
+        ];
+
+        // Full database of all certification questions
+        const allQuestions = [...salesforceAdminQuestions];
+
+        // Current quiz state
+        let currentQuestion = 0;
+        let answeredQuestions = new Set();
+        let correctAnswers = 0;
+        let quizQuestions = [];
+        let activeQuestionSet = [];
+
+        // DOM elements
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeModal = document.getElementById('close-modal');
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const progressBtn = document.getElementById('progress-btn');
+        const progressModal = document.getElementById('progress-modal');
+        const closeProgressModal = document.getElementById('close-progress-modal');
+        const themeToggle = document.getElementById('theme-toggle');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const quizSection = document.getElementById('quiz-section');
+        const mainContent = document.getElementById('main-content');
+
+        // Function to display a question
+        function displayQuestion() {
+            if (!activeQuestionSet.length) return;
+            
+            const question = activeQuestionSet[currentQuestion];
+            const container = document.getElementById('question-container');
+            const questionNumber = document.getElementById('question-number');
+            
+            questionNumber.textContent = `Question ${currentQuestion + 1}/${activeQuestionSet.length}`;
+            
+            container.innerHTML = `
+                <p class="text-lg font-semibold mb-4">${question.question}</p>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <div class="flex items-center">
+                            <input type="radio" name="answer" value="${index}" id="option${index}" class="mr-3 h-4 w-4">
+                            <label for="option${index}" class="text-base">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-4 hidden" id="explanation">
+                    <p class="text-green-600 font-semibold">Explanation:</p>
+                    <p>${question.explanation}</p>
+                </div>
+            `;
+
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === activeQuestionSet.length - 1;
+        }
+
+        // Function to check an answer
+        function checkAnswer() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (!selectedAnswer) return;
+
+            const correct = parseInt(selectedAnswer.value) === activeQuestionSet[currentQuestion].correct;
+            if (correct) correctAnswers++;
+            
+            // Mark correct answer
+            const options = document.querySelectorAll('input[name="answer"]');
+            options.forEach((option, index) => {
+                const label = option.nextElementSibling;
+                if (index === activeQuestionSet[currentQuestion].correct) {
+                    label.classList.add('text-green-600', 'font-semibold');
+                } else if (parseInt(selectedAnswer.value) === index && !correct) {
+                    label.classList.add('text-red-600', 'font-semibold');
+                }
+                option.disabled = true;
+            });
+            
+            answeredQuestions.add(currentQuestion);
+            updateStats();
+            
+            document.getElementById('explanation').classList.remove('hidden');
+        }
+
+        // Function to update statistics
+        function updateStats() {
+            document.getElementById('attempted').textContent = answeredQuestions.size;
+            if (answeredQuestions.size > 0) {
+                const rate = (correctAnswers / answeredQuestions.size * 100).toFixed(1);
+                document.getElementById('success-rate').textContent = `${rate}%`;
+            }
+        }
+
+        // Function to start a quiz
+        function startQuiz(topic) {
+            // Filter questions by topic if specified
+            activeQuestionSet = topic ? 
+                salesforceAdminQuestions.filter(q => q.topic === topic) : 
+                [...salesforceAdminQuestions].sort(() => 0.5 - Math.random()).slice(0, 20);
+                
+            currentQuestion = 0;
+            answeredQuestions = new Set();
+            correctAnswers = 0;
+            
+            quizSection.classList.remove('hidden');
+            mainContent.querySelector('.grid').classList.add('hidden');
+            mainContent.querySelector('.mt-8').classList.add('hidden');
+            
+            displayQuestion();
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.quiz-card button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const topic = btn.closest('.quiz-card').querySelector('h3').textContent;
+                startQuiz(topic);
+            });
+        });
+
+        document.getElementById('check-btn').addEventListener('click', checkAnswer);
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentQuestion < activeQuestionSet.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        });
+
+        document.getElementById('hint-btn').addEventListener('click', () => {
+            // Remove two incorrect options as a hint
+            const options = document.querySelectorAll('input[name="answer"]');
+            const correctIndex = activeQuestionSet[currentQuestion].correct;
+            
+            let removed = 0;
+            let indexes = [0, 1, 2, 3].filter(i => i !== correctIndex);
+            indexes = indexes.sort(() => 0.5 - Math.random()).slice(0, 2);
+            
+            options.forEach((option, index) => {
+                if (indexes.includes(index)) {
+                    option.disabled = true;
+                    option.nextElementSibling.classList.add('text-gray-400');
+                }
+            });
+        });
+
+        // Login modal functionality
+        loginBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
+        closeModal.addEventListener('click', () => loginModal.classList.add('hidden'));
+        
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('border-b-2', 'border-blue-600', 'font-semibold');
+            loginTab.classList.remove('text-gray-500');
+            signupTab.classList.remove('border-b-2', 'border-blue-600', 'font-semibold');
+            signupTab.classList.add('text-gray-500');
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+        });
+        
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('border-b-2', 'border-blue-600', 'font-semibold');
+            signupTab.classList.remove('text-gray-500');
+            loginTab.classList.remove('border-b-2', 'border-blue-600', 'font-semibold');
+            loginTab.classList.add('text-gray-500');
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+
+        // Progress modal functionality
+        progressBtn.addEventListener('click', () => progressModal.classList.remove('hidden'));
+        closeProgressModal.addEventListener('click', () => progressModal.classList.add('hidden'));
+
+        // Theme toggle functionality
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark')) {
+                icon.classList.remove('bi-moon');
+                icon.classList.add('bi-sun');
+            } else {
+                icon.classList.remove('bi-sun');
+                icon.classList.add('bi-moon');
+            }
+        });
+
+        // Sidebar functionality
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Admin panel functionality for each tab
+        document.getElementById('questions-tab').addEventListener('click', () => {
+            document.getElementById('questions-panel').classList.remove('hidden');
+            document.getElementById('certifications-panel').classList.add('hidden');
+            document.getElementById('import-panel').classList.add('hidden');
+        });
+        
+        document.getElementById('certifications-tab').addEventListener('click', () => {
+            document.getElementById('questions-panel').classList.add('hidden');
+            document.getElementById('certifications-panel').classList.remove('hidden');
+            document.getElementById('import-panel').classList.add('hidden');
+        });
+        
+        document.getElementById('import-tab').addEventListener('click', () => {
+            document.getElementById('questions-panel').classList.add('hidden');
+            document.getElementById('certifications-panel').classList.add('hidden');
+            document.getElementById('import-panel').classList.remove('hidden');
+        });
+
+        // Initialize the application
+        updateStats();
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
